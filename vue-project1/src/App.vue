@@ -1,81 +1,58 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
+  <the-navigation @set-page="setActivePage"></the-navigation>
   <main>
-    <TheWelcome />
+    <router-view></router-view>
   </main>
 </template>
 
+<script>
+import TheNavigation from './components/nav/TheNavigation.vue';
+
+export default {
+  components: {
+    TheNavigation
+  },
+  data() {
+    return {
+      activePage: 'teams-list',
+      teams: [
+        { id: 't1', name: 'Frontend Engineers', members: ['u1', 'u2'] },
+        { id: 't2', name: 'Backend Engineers', members: ['u1', 'u2', 'u3'] },
+        { id: 't3', name: 'Client Consulting', members: ['u4', 'u5'] },
+      ],
+      users: [
+        { id: 'u1', fullName: 'Max Schwarz', role: 'Engineer' },
+        { id: 'u2', fullName: 'Praveen Kumar', role: 'Engineer' },
+        { id: 'u3', fullName: 'Julie Jones', role: 'Engineer' },
+        { id: 'u4', fullName: 'Alex Blackfield', role: 'Consultant' },
+        { id: 'u5', fullName: 'Marie Smith', role: 'Consultant' },
+      ],
+    };
+  },
+  provide() {
+    return {
+      teams: this.teams,
+      users: this.users,
+    };
+  },
+  methods: {
+    setActivePage(page) {
+      this.activePage = page;
+    },
+  },
+};
+</script>
+
 <style>
-@import './assets/base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
+* {
+  box-sizing: border-box;
 }
 
-header {
-  line-height: 1.5;
+html {
+  font-family: sans-serif;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+body {
+  margin: 0;
 }
 </style>
