@@ -17,15 +17,12 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      component: TheHome
-    }
-  ]
+      component: TheHome,
+    },
+  ],
 });
-
-
 
 new Vue({
   vuetify,
   render: (h) => h(App),
 }).$mount('#app');
-
