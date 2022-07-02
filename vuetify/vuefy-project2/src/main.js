@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import App from './App.vue';
-import Home from './views/Home.vue';
+import TheHome from './views/TheHome.vue';
 import vuetify from './plugins/vuetify';
 import 'roboto-fontface/css/roboto/roboto-fontface.css';
 import '@mdi/font/css/materialdesignicons.css';
@@ -17,8 +17,8 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      component: Home
-    },
+      component: TheHome
+    }
   ]
 });
 
@@ -28,3 +28,4 @@ new Vue({
   vuetify,
   render: (h) => h(App),
 }).$mount('#app');
+
