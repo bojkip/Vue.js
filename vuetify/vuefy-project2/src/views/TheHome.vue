@@ -1,3 +1,10 @@
 <template>
-  <h1>Homepage</h1>
+  <!-- eslint-disable max-len -->
+  <div class="home">
+    <h1>Homepage</h1>
+
+    <v-btn fab depressed small dark color="purple">
+      <v-icon>mdi-heart</v-icon>
+    </v-btn>
+  </div>
 </template>
