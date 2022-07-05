@@ -16,7 +16,7 @@
         </v-tooltip>
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small flat class="ml-2" @click="sortBy('person')" v-bind="attrs" v-on="on">
+            <v-btn small flat class="ml-2" @click="sortBy('person')" v-bind="attrs" v-on="on" >
               <v-icon left small>mdi-account</v-icon>
               <span class="caption text-lowercase">By person</span>
             </v-btn>

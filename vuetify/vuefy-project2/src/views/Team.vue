@@ -3,8 +3,44 @@
     <h1 class="subtitle-1 grey--text">Team</h1>
 
     <v-container class="my-5">
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam possimus beatae optio reiciendis quibusdam inventore ab velit voluptates praesentium eligendi? Commodi aspernatur libero pariatur illum vitae assumenda, cum molestias laborum!</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, quos. Est in ea maiores accusantium temporibus laudantium dolorum, dolores nulla voluptas harum quam, tempora nesciunt quo rerum dicta. Molestias, at.</p>
+      <v-layout row>
+        <v-flex xs12 sm6 md4 lg3 v-for="person in team" :key="person.name">
+          <v-card flat class="text-xs-center ma-3">
+            <v-responsive class="pt-4">
+              <v-avatar size="100" class="grey lighten-2">
+                <img :src="person.avatar" alt="">
+              </v-avatar>
+            </v-responsive>
+            <v-card-text>
+              <div class="subtitle-1">{{ person.name }}</div>
+              <div class="grey--text">{{ person.role }}</div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn flat>
+                <v-icon small left>mdi-message</v-icon>
+                <span>Message</span>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-layout>
     </v-container>
   </div>
 </template>
+
+
+<script>
+export default {
+  data() {
+    return {
+      team: [
+        { name: 'The Net Ninja', role: 'Web developer', avatar: '/avatar-1.png'},
+        { name: 'Ryu', role: 'Graphic designer', avatar: '/avatar-2.png' },
+        { name: 'Chun Li', role: 'Web developer', avatar: '/avatar-3.png' },
+        { name: 'Gouken', role: 'Social media maverick', avatar: '/avatar-4.png' },
+        { name: 'Yoshi', role: 'Sales guru', avatar: '/avatar-5.png'}
+      ]
+    }
+  },
+};
+</script>
