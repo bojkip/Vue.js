@@ -27,9 +27,9 @@
         >
           <v-icon large>mdi-close-circle</v-icon>
         </v-btn>
-        <v-form class="px-12 py-5">
-            <v-text-field label="Title" v-model="title" prepend-icon="mdi-folder"></v-text-field>
-            <v-textarea label="Information" v-model="content" prepend-icon="mdi-pencil"></v-textarea>
+        <v-form class="px-12 py-5" ref="form">
+            <v-text-field label="Title" v-model="title" prepend-icon="mdi-folder" :rules="inputRules"></v-text-field>
+            <v-textarea label="Information" v-model="content" prepend-icon="mdi-pencil" :rules="inputRules"></v-textarea>
             <!-- calendar -->
             <div class="my-10">
                 <div class="mb-6"></div>
@@ -62,7 +62,7 @@
             </div>
 
             <!-- ---- -->
-            <v-btn class="success mx-0 mt-3">Add Project</v-btn>
+            <v-btn class="success mx-0 mt-3" @click="submit">Add Project</v-btn>
         </v-form>
       </v-sheet>
     </v-bottom-sheet>
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+
   export default {
     data: () => ({
       sheet: false,
@@ -78,6 +79,9 @@
       activePicker: null,
       date: null,
       menu: false,
+      inputRules: [
+        v => v.length >= 3  || 'Minimum lenght is 3 chaaracters',
+      ],
     }),
     watch: {
       menu (val) {
@@ -87,6 +91,11 @@
     methods: {
       save (date) {
         this.$refs.menu.save(date)
+      },
+      submit () {
+        if(this.$refs.form.validate()){
+          console.log(this.title, this.content)
+        }
       },
     },
   }
