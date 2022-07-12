@@ -17,6 +17,8 @@
       <search-bar></search-bar>
       
       <v-spacer></v-spacer>
+
+      <all-categories-btn></all-categories-btn>
     
       <v-btn
         href="https://github.com/vuetifyjs/vuetify/releases/latest"
@@ -36,10 +38,12 @@
 
 <script>
 import SearchBar from './components/SearchBar.vue';
+import AllCategoriesBtn from './components/all-categories/AllCategoriesBtn.vue';
 
 export default {
   components: {
-    SearchBar
+    SearchBar,
+    AllCategoriesBtn
   },
   name: 'App',
 
