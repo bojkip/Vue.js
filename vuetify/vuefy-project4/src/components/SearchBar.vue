@@ -1,26 +1,19 @@
 <template>
-    <v-card class="pa-5">
-        <v-container fluid v-for="item in items">
-            <v-row>
-                <h1>Search Bar</h1>
-            </v-row>
-            <v-row
-                align="center">
-                <v-col cols="12">
+    <v-toolbar class="white--text pt-1" flat>
+        <v-toolbar-title>Search</v-toolbar-title>
                 <v-autocomplete
+                    v-for="item in items" :key="item.name"
                     v-model="value"
                     :items="item.name"
                     dense
-                    filled
+                    
                     label="Filled"
+                    class="pt-5"
                 ></v-autocomplete>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-btn @click="$router.push({ path: item.route })">Search</v-btn>
-            </v-row>
-        </v-container>
-    </v-card>
+                <div class="pa-5">
+                    <v-btn @click="$router.push({ path: item.route })">Search</v-btn>
+                </div>
+    </v-toolbar>
 </template>
 
 <script>

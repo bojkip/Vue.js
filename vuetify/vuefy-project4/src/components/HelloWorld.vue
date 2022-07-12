@@ -2,9 +2,12 @@
   <v-card flat>
     <v-container fluid>
       <h1 class="text-center pt-7">Length</h1>
+      <v-row class="d-flex justify-center py-7">
+          <p class="success--text font-weight-bold"> {{probaN}}</p>
+          <!-- {{probaV}} {{inputNum}} -->
+      </v-row>
       <v-row
         align="center"
-        class="pt-8"
       >
         <v-col>
           <v-text-field outlined label="Input" v-model="inputNum"></v-text-field>
@@ -30,8 +33,17 @@
         <v-col cols="1">
           <v-text-field outlined label="Pow" v-model="inputPow"></v-text-field>
         </v-col>
+      </v-row>
+    </v-container>
+    <v-container>
+      <v-row>
         <v-col>
-          <p>{{probaV}} ~ {{inputNum}} ~ {{probaN}}</p>
+          <v-btn @click="showF">Add</v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+        <add-search-bar v-if="show"></add-search-bar>
         </v-col>
       </v-row>
     </v-container>
@@ -39,7 +51,12 @@
 </template>
 
 <script>
+import addSearchBar from './addComponents/addSearchBar.vue';
+
 export default {
+  components: {
+    addSearchBar,
+  },
   data() {
     return {
       inputNum: '',
@@ -50,6 +67,12 @@ export default {
       valuesOut: ['foo', 'bar'],
       valueOut: '',
       inputPow: '',
+      show: false,
+    }
+  },
+  methods: {
+    showF() {
+      this.show = !this.show;
     }
   },
   computed: {

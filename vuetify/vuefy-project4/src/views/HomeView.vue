@@ -1,6 +1,6 @@
 <template>
   <div>
-    <search-bar></search-bar>
+    <!-- <search-bar></search-bar> -->
     <hello-world />
   </div>
 </template>
