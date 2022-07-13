@@ -1,10 +1,12 @@
 <template>
   <v-card flat>
-    <v-container fluid>
+    <v-container class="container" fluid>
       <h1 class="text-center pt-7">Length</h1>
-      <v-row class="d-flex justify-center py-7">
-          <p class="success--text font-weight-bold"> {{probaN}}</p>
+      <v-row class="row d-flex justify-center py-7" cols="2">
+        <v-col cols="3">
+          <v-text-field class="text-center" :messages="`${valueOut} ${exponent}`" :value="probaN" label="Result"></v-text-field>
           <!-- {{probaV}} {{inputNum}} -->
+        </v-col>
       </v-row>
       <v-row
         align="center"
@@ -31,31 +33,21 @@
           ></v-autocomplete>
         </v-col>
         <v-col cols="1">
-          <v-text-field outlined label="Pow" v-model="inputPow"></v-text-field>
+          <v-text-field outlined label="Exponent" v-model="inputPow"></v-text-field>
         </v-col>
       </v-row>
     </v-container>
-    <v-container>
-      <v-row>
-        <v-col>
-          <v-btn @click="showF">Add</v-btn>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-        <add-search-bar v-if="show"></add-search-bar>
-        </v-col>
-      </v-row>
-    </v-container>
+    <add-components-btn class="mt-5"></add-components-btn>
   </v-card>
 </template>
 
+
 <script>
-import addSearchBar from './addComponents/addSearchBar.vue';
+import AddComponentsBtn from './AddComponents/AddComponentsBtn.vue';
 
 export default {
   components: {
-    addSearchBar,
+  AddComponentsBtn,
   },
   data() {
     return {
@@ -71,11 +63,22 @@ export default {
     }
   },
   methods: {
+    randomColor(){
+      return '#' + Math.floor(Math.random()*16777215).toString(16);
+    },
     showF() {
       this.show = !this.show;
     }
   },
   computed: {
+    exponent(){
+      if (this.inputPow > 0) {
+        return 'expo:' + ' ' + this.inputPow;
+      }
+      else {
+        return '';
+      }
+    },
     probaV(){
       return this.value
     },

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import AllCategoriesList from "@/components/all-categories/AllCategoriesList.vue";
+import AllCategoriesList from '@/components/AllCategories/AllCategoriesList.vue';
 
 Vue.use(VueRouter);
 

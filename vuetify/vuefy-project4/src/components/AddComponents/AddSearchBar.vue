@@ -1,6 +1,6 @@
 <template>
     <v-card class="pa-5" flat>
-        <v-container fluid v-for="item in items">
+        <v-container fluid v-for="item in items" :key="item.name">
             <v-row>
                 <h1>Search Bar</h1>
             </v-row>
