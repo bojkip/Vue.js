@@ -7,7 +7,8 @@
                     :items="item.name"
                     dense
                     
-                    label="Filled"
+                    label="Search"
+                    placeholder="e.g. Volume or Temperature"
                     class="pt-5"
                 ></v-autocomplete>
                 <div class="pa-5">

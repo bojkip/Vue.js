@@ -4,15 +4,21 @@
       <h1 class="text-center pt-7">Length</h1>
       <v-row class="row d-flex justify-center py-7" cols="2">
         <v-col cols="3">
-          <v-text-field class="text-center" :messages="`${valueOut} ${exponent}`" :value="probaN" label="Result"></v-text-field>
+          <v-text-field class="text-center result-field" :messages="`${valueOut} ${exponent}`" :value="probaN" label="Result "></v-text-field>
           <!-- {{probaV}} {{inputNum}} -->
+          <v-btn icon @click="copyBtn">
+            <v-icon >mdi-clipboard-multiple-outline</v-icon>
+          </v-btn>
+          <v-btn icon @click="resetInput">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
       <v-row
         align="center"
       >
         <v-col>
-          <v-text-field outlined label="Input" v-model="inputNum"></v-text-field>
+          <v-text-field outlined label="Your Number" hint="Number only" placeholder="e.g 120" v-model="inputNum"></v-text-field>
         </v-col>
         <v-col>
           <v-autocomplete
@@ -20,7 +26,8 @@
             :items="itemsIn"
             dense
             filled
-            label="Filled"
+            label="From Unit"
+            placeholder="e.g. centimeter or cm"
           ></v-autocomplete>
         </v-col>
         <v-col>
@@ -29,17 +36,21 @@
             :items="itemsOut"
             dense
             filled
-            label="To"
+            label="To Unit"
+            placeholder="e.g. milimeter or mm"
           ></v-autocomplete>
         </v-col>
-        <v-col cols="1">
-          <v-text-field outlined label="Exponent" v-model="inputPow"></v-text-field>
+        <v-col xs-cols="2"
+        sm-cols="2">
+          <v-text-field outlined label="Exponent" placeholder="e.g. 2" hint="Number only" v-model="inputPow"></v-text-field>
         </v-col>
       </v-row>
     </v-container>
     <add-components-btn class="mt-5"></add-components-btn>
   </v-card>
 </template>
+
+
 
 
 <script>
@@ -52,7 +63,7 @@ export default {
   data() {
     return {
       inputNum: '',
-      itemsIn: ['milimeter(mm)', 'centimeter(cm)', 'decimeter(dm)', 'meter(m)', 'kilometer(km)', 'inch(in)', 'feet(ft)', 'yard(yd)', 'mile(mi)'],
+      itemsIn: [ 'milimeter(mm)', 'centimeter(cm)', 'decimeter(dm)', 'meter(m)', 'kilometer(km)', 'inch(in)', 'feet(ft)', 'yard(yd)', 'mile(mi)'],
       valuesIn: ['foo', 'bar'],
       valueIn: '',
       itemsOut: ['milimeter(mm)', 'centimeter(cm)', 'decimeter(dm)', 'meter(m)', 'kilometer(km)', 'inch(in)', 'feet(ft)', 'yard(yd)', 'mile(mi)'],
@@ -60,11 +71,20 @@ export default {
       valueOut: '',
       inputPow: '',
       show: false,
+      result: '',
     }
   },
   methods: {
-    randomColor(){
-      return '#' + Math.floor(Math.random()*16777215).toString(16);
+    resetInput(){
+      this.inputNum = '' ;
+      this.itemIn = '',
+      this.itemOut = '' ;
+      this.inputPow = '' ;
+      this.probaN = '' ;
+    },
+    copyBtn(){
+      this.result = this.probaN;
+      navigator.clipboard.writeText(this.result);
     },
     showF() {
       this.show = !this.show;
@@ -84,7 +104,12 @@ export default {
     },
     probaN(){
       if (this.valueIn === 'milimeter(mm)' && this.valueOut === 'centimeter(cm)') {
-        return Math.pow(Number(this.inputNum), this.inputPow) * 0.1
+        if (this.inputPow > 0) {
+        return Math.pow(Number(this.inputNum), this.inputPow) * 0.1;
+        }
+        else {
+          return Number(this.inputNum) * 0.1;
+        }
       }
       else if (this.valueIn === 'milimeter(mm)' && this.valueOut === 'decimeter(dm)') {
         return Math.pow(Number(this.inputNum), this.inputPow) * 0.01
