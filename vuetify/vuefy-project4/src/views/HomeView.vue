@@ -1,19 +1,19 @@
 <template>
   <div>
     <!-- <search-bar></search-bar> -->
-    <hello-world />
+    <length></length>
   </div>
 </template>
 
 <script>
-import HelloWorld from '../components/HelloWorld';
+import Length from '../components/Units/Length.vue';
 import SearchBar from '../components/SearchBar.vue';
 
 export default {
   name: 'Home',
 
   components: {
-    HelloWorld,
+    Length,
     SearchBar,
   },
 };

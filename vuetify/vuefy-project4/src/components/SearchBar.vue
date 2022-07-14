@@ -23,8 +23,8 @@
     data: () => ({
         items: [
             {
-            name: 'Neko ime', route: '/about'
-            }
+                name: 'Neko ime', route: '/about',
+            },
         ],
         values: ['foo', 'bar'],
         value: null,

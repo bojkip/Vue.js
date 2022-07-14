@@ -69,7 +69,7 @@
 
 
 <script>
-import AddComponentsBtn from './AddComponents/AddComponentsBtn.vue';
+import AddComponentsBtn from '../AddComponents/AddComponentsBtn.vue';
 
 export default {
   components: {
