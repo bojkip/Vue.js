@@ -4,7 +4,7 @@
       <h1 class="text-center pt-7">Length</h1>
       <v-row class="row d-flex justify-center py-7" cols="2">
         <v-col cols="3">
-          <v-text-field class="text-center result-field" clearable :messages="`${valueOut} ${exponent}`" :value="probaN" label="Result "></v-text-field>
+          <v-text-field class="text-center result-field" clearable :messages="`${valueOut} ${exponent}`"  v-model="resultOutput" :vlaue="setResult" label="Result "></v-text-field>
           <!-- {{probaV}} {{inputNum}} -->
           <v-tooltip bottom> 
             <template v-slot:activator="{ on, attrs }">
@@ -57,7 +57,7 @@
         </v-col>
         <v-col xs-cols="2"
         sm-cols="2">
-          <v-text-field outlined label="Exponent" placeholder="e.g. 2"></v-text-field>
+          <v-text-field outlined label="Exponent" placeholder="e.g. 2" hint="Number only" v-model="inputPow"></v-text-field>
         </v-col>
       </v-row>
     </v-container>
@@ -87,6 +87,7 @@ export default {
       inputPow: '',
       show: false,
       result: '',
+      resultOutput: '',
     }
   },
   methods: {
@@ -98,16 +99,19 @@ export default {
       this.probaN = '' ;
       this.valueOut = '' ;
       this.valueIn = '' ;
+      this.resultOutput = '' ;
     },
     copyBtn(){
-      this.result = this.probaN;
-      navigator.clipboard.writeText(this.result);
+      navigator.clipboard.writeText(this.resultOutput);
     },
     showF() {
       this.show = !this.show;
     }
   },
   computed: {
+    setResult(){
+      this.resultOutput = this.probaN
+    },
     exponent(){
       if (this.inputPow > 0) {
         return 'expo:' + ' ' + this.inputPow;
@@ -122,7 +126,7 @@ export default {
     probaN(){
       if (this.valueIn === 'milimeter(mm)' && this.valueOut === 'centimeter(cm)') {
         if (this.inputPow > 0) {
-        return Math.pow(Number(this.inputNum), this.inputPow) * 0.1;
+          return Math.pow(Number(this.inputNum), this.inputPow) * 0.1;
         }
         else {
           return Number(this.inputNum) * 0.1;
