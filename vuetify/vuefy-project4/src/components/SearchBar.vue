@@ -12,7 +12,10 @@
                         class="pt-5"
                     ></v-autocomplete>
                     <div class="pa-5">
-                        <v-btn @click="$router.push({ path: item.route })">Search</v-btn>
+                        <v-btn  @click="$router.push({ path: item.route })">
+                            <v-icon left>mdi-magnify</v-icon>
+                            <span>Search</span>
+                        </v-btn>
                     </div>
         </v-toolbar>
     </v-card>

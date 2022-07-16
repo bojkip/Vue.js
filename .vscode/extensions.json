@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "ajhyndman.jslint"
+        "ajhyndman.jslint",
+        "yo1dog.cursor-align"
     ]
 }

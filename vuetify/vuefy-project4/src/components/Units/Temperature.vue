@@ -31,7 +31,7 @@
         align="center"
     >
         <v-col>
-        <v-text-field outlined label="Your Number" hint="Number only" placeholder="e.g 120" v-model="inputNum"></v-text-field>
+        <v-text-field outlined clearable label="Your Number" hint="Number only" placeholder="e.g 120" v-model="inputNum"></v-text-field>
         </v-col>
         <v-col>
         <v-autocomplete
@@ -40,7 +40,7 @@
             dense
             filled
             label="From Unit"
-            placeholder="e.g. centimeter or cm"
+            placeholder="e.g. Celsius or C"
             clearable
         ></v-autocomplete>
         </v-col>
@@ -51,7 +51,7 @@
             dense
             filled
             label="To Unit"
-            placeholder="e.g. milimeter or mm"
+            placeholder="e.g. Fahrenheit or F"
             clearable
         ></v-autocomplete>
         </v-col>
@@ -68,59 +68,78 @@
 import AddComponentsBtn from '../AddComponents/AddComponentsBtn.vue';
 
 export default {
-components: {
-AddComponentsBtn,
-},
-data() {
-    return {
-    inputNum: '',
-    itemsIn: [ 'Fahrenheit(F)', 'Celsius(C)', 'Kelvin(K)'],
-    valuesIn: ['foo', 'bar'],
-    valueIn: '',
-    itemsOut: ['Fahrenheit(F)', 'Celsius(C)', 'Kelvin(K)'],
-    valuesOut: ['foo', 'bar'],
-    valueOut: '',
-    inputPow: '',
-    show: false,
-    result: '',
-    resultOutput: '',
-    }
-},
-methods: {
-    resetInput(){
-    this.inputNum = '' ;
-    this.itemIn = '',
-    this.itemOut = '' ;
-    this.inputPow = '' ;
-    this.probaN = '' ;
-    this.valueOut = '' ;
-    this.valueIn = '' ;
-    this.resultOutput = '' ;
+    components: {
+    AddComponentsBtn,
     },
-    copyBtn(){
-    navigator.clipboard.writeText(this.resultOutput);
-    },
-    showF() {
-    this.show = !this.show;
-    }
-},
-computed: {
-    setResult(){
-    this.resultOutput = this.convertTemp;
-    },
-    exponent(){
-    if (this.inputPow > 0) {
-        return 'expo:' + ' ' + this.inputPow;
-    }
-    else {
-        return '';
-    }
-        },
-    convertTemp(){
-        if (this.valueIn === 'Fahrenheit(F)' && this.valueOut === 'Celsius(C)') {
-            return Number(this.inputNum) * 0.1;
+    data() {
+        return {
+        inputNum: '' ,
+        itemsIn: [ 'Celsius(C)', 'Fahrenheit(F)', 'Kelvin(K)'],
+        valuesIn: ['foo', 'bar'],
+        valueIn: '',
+        itemsOut: ['Celsius(C)', 'Fahrenheit(F)', 'Kelvin(K)'],
+        valuesOut: ['foo', 'bar'],
+        valueOut: '',
+        inputPow: '',
+        show: false,
+        result: '',
+        resultOutput: '',
         }
-    }
+    },
+    methods: {
+        resetInput(){
+        this.inputNum = '' ;
+        this.itemIn = '',
+        this.itemOut = '' ;
+        this.inputPow = '' ;
+        this.probaN = '' ;
+        this.valueOut = '' ;
+        this.valueIn = '' ;
+        this.resultOutput = '' ;
+        },
+        copyBtn(){
+        navigator.clipboard.writeText(this.resultOutput);
+        },
+        showF() {
+        this.show = !this.show;
+        }
+    },
+    computed: {
+        setResult(){
+            this.resultOutput = this.convertTemp;
+            },
+        exponent(){
+            if (this.inputPow > 0) {
+                return 'expo:' + ' ' + this.inputPow;
+            }
+            else {
+                return '';
+            }
+        },
+        convertTemp(){
+            if (this.valueIn === 'Celsius(C)' && this.valueOut === 'Fahrenheit(F)') {
+                return parseFloat(this.inputNum) * 33.8;
+            }
+            else if (this.valueIn === 'Celsius(C)' && this.valueOut === 'Kelvin(K)') {
+                return parseFloat(this.inputNum) * 274.15;
+            }
+            else if (this.valueIn === 'Fahrenheit(F)' && this.valueOut === 'Celsius(C)') {
+                return parseFloat(this.inputNum) * (-17.2222222);
+            }
+            else if (this.valueIn === 'Fahrenheit(F)' && this.valueOut === 'Kelvin(K)') {
+                return parseFloat(this.inputNum) * 255.927778;
+            }
+            else if (this.valueIn === 'Kelvin(K)' && this.valueOut === 'Celsius(C)') {
+            return parseFloat(this.inputNum) * (-272.15);
+            }
+            else if (this.valueIn === 'Kelvin(K)' && this.valueOut === 'Fahrenheit(F)') {
+            return parseFloat(this.inputNum) * (-457.87);
+            }
+            else{
+                return '';
+            }
+        }
+
     }
 }
 </script>

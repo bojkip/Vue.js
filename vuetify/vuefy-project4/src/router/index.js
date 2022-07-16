@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import AllCategoriesList from '@/components/AllCategories/AllCategoriesList.vue';
 import Temperature from '@/components/Units/Temperature.vue';
+import Volume from '@/components/Units/Volume.vue';
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/temperature',
     name: 'temperature',
     component: Temperature,
+  },
+  {
+    path: '/volume',
+    name: 'volume',
+    component: Volume,
   },
 ];
 
