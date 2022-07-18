@@ -62,7 +62,7 @@
         </v-col>
         <v-col xs-cols="2"
         sm-cols="2">
-          <v-text-field outlined clearable :disabled="unitEx" label="Unit Exponent" placeholder="e.g. 2" hint="If  unit has no exponent, skip this field" v-model="unitPow"></v-text-field>
+          <v-text-field outlined clearable :disabled="disUnitPow" label="Unit Exponent" placeholder="e.g. 2" hint="If  unit has no exponent, skip this field" v-model="unitPow"></v-text-field>
         </v-col>
       </v-row>
     </v-container>
@@ -72,7 +72,7 @@
             v-model="showAreaUnits"
             inset
             label="Area"
-            @changed="setAreaUnits"
+            @changed="SetAreaItems"
           ></v-switch>
         </v-col>
         <p>{{ppp}}</p>
@@ -94,7 +94,7 @@ export default {
   data() {
     return {
       inputNum: '',
-      itemsIn: [ 'Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)'],
+      itemsIn: [ 'Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)', 'description', 'bla'],
       valuesIn: ['foo', 'bar'],
       valueIn: '',
       itemsOut: ['Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)'],
@@ -107,11 +107,9 @@ export default {
       result: '',
       resultOutput: '',
       areaBtn: false,
-      ppp: '2',
-      areaDis: false,
-      setAreaBtnColor: '',
+      ppp: '',
       showAreaUnits: false,
-      unitEx: false,
+      disUnitPow: false,
     }
   },
   methods: {
@@ -129,23 +127,29 @@ export default {
     copyBtn(){
       navigator.clipboard.writeText(this.resultOutput);
     },
-    setAreaUnits(){
-      this.showAreaUnits = !this.showAreaUnits;
-    },
 
   },
   computed: {
-    SetItemsIn(){
-      if (showAreaUnits === true){
-      this.itemsIn.push({description: '', unitprice: '' , code: ''});
+    SetAreaItems(){
+      if (this.showAreaUnits === true) {
+        this.itemsIn = [ 'Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)', 'description', 'bla'];
+        this.itemsOut = ['Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)', 'description', 'bla'];
+        this.disUnitPow = true;
+        this.unitPow = 2;
+      }
+      else {
+        this.itemsIn = [ 'Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)'];
+        this.itemsOut = ['Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)'];
+        this.disUnitPow = false;
+        this.unitPow = '';
       }
     },
     setResult(){
       this.resultOutput = this.probaN
     },
     exponent(){
-      if (this.userPow > 0) {
-        return 'Exponent:' + ' ' + this.userPow;
+      if (this.unitPow != '' || this.userPow != ''){
+        return `Unit Exponent ${this.unitPow} | User Exponent: ${this.userPow}`;
       }
       else {
         return '';
