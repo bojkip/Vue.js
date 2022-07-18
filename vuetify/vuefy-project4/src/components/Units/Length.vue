@@ -57,10 +57,26 @@
         </v-col>
         <v-col xs-cols="2"
         sm-cols="2">
-          <v-text-field outlined clearable label="Exponent" placeholder="e.g. 2" hint="Number only" v-model="inputPow"></v-text-field>
+          <v-text-field outlined clearable label="Your Number Exponent" placeholder="e.g. 2" hint="If your number has no exponent, skip this field" v-model="inputPow">
+          </v-text-field>
+        </v-col>
+        <v-col xs-cols="2"
+        sm-cols="2">
+          <v-text-field outlined clearable :disabled="unitEx" label="Unit Exponent" placeholder="e.g. 2" hint="If  unit has no exponent, skip this field" v-model="outputPow"></v-text-field>
         </v-col>
       </v-row>
     </v-container>
+    <v-container>
+        <v-col>
+          <v-switch
+            v-model="showAreaUnits"
+            inset
+            label="Area"
+            @changed="setAreaUnits"
+          ></v-switch>
+        </v-col>
+        <p>{{ppp}}</p>
+      </v-container>
     <add-components-btn class="mt-5"></add-components-btn>
   </v-card>
 </template>
@@ -82,12 +98,20 @@ export default {
       valuesIn: ['foo', 'bar'],
       valueIn: '',
       itemsOut: ['Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)'],
+
       valuesOut: ['foo', 'bar'],
       valueOut: '',
       inputPow: '',
+      outputPow: '',
       show: false,
       result: '',
       resultOutput: '',
+      areaBtn: false,
+      ppp: '2',
+      areaDis: false,
+      setAreaBtnColor: '',
+      showAreaUnits: false,
+      unitEx: false,
     }
   },
   methods: {
@@ -96,6 +120,7 @@ export default {
       this.itemIn = '',
       this.itemOut = '' ;
       this.inputPow = '' ;
+      this.outputPow = '';
       this.probaN = '' ;
       this.valueOut = '' ;
       this.valueIn = '' ;
@@ -104,29 +129,34 @@ export default {
     copyBtn(){
       navigator.clipboard.writeText(this.resultOutput);
     },
-    showF() {
-      this.show = !this.show;
-    }
+    setAreaUnits(){
+      this.showAreaUnits = !this.showAreaUnits;
+    },
+
   },
   computed: {
+    SetItemsIn(){
+      if (showAreaUnits === true){
+      this.itemsIn.push({description: '', unitprice: '' , code: ''});
+      }
+    },
     setResult(){
       this.resultOutput = this.probaN
     },
     exponent(){
       if (this.inputPow > 0) {
-        return 'Expo:' + ' ' + this.inputPow;
+        return 'Exponent:' + ' ' + this.inputPow;
       }
       else {
         return '';
       }
     },
-    probaV(){
-      return this.value
-    },
+
+
     probaN(){
       if (this.valueIn === 'Milimeter(mm)' && this.valueOut === 'Centimeter(cm)') {
         if (this.inputPow > 0) {
-          return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.1;
+          return parseFloat(this.inputNum) * Math.pow(0.1, this.inputPow) ;
         }
         else {
           return parseFloat(this.inputNum) * 0.1;
@@ -134,7 +164,7 @@ export default {
       }
       else if (this.valueIn === 'Milimeter(mm)' && this.valueOut === 'Decimeter(dm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.01;
+            return parseFloat(this.inputNum) * Math.pow(0.01, this.inputPow) ;
           } 
           else {
             return parseFloat(this.inputNum) * 0.01;
@@ -142,7 +172,7 @@ export default {
       }
       else if (this.valueIn === 'Milimeter(mm)' && this.valueOut === 'Meter(m)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.001;
+            return parseFloat(this.inputNum) * Math.pow(0.001, this.inputPow) ;
           } 
           else {
             return parseFloat(this.inputNum) * 0.001;
@@ -150,7 +180,7 @@ export default {
       }
       else if (this.valueIn === 'Milimeter(mm)' && this.valueOut === 'Kilometer(km)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.000001;
+            return parseFloat(this.inputNum) * Math.pow(0.000001, this.inputPow) ;
           } 
           else {
             return parseFloat(this.inputNum) * 0.000001;
@@ -158,7 +188,7 @@ export default {
       }
       else if (this.valueIn === 'Milimeter(mm)' && this.valueOut === 'Inch(in)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.03937007874;
+            return parseFloat(this.inputNum) * Math.pow(0.03937007874, this.inputPow) ;
             } 
           else {
             return parseFloat(this.inputNum) * 0.03937007874
@@ -166,7 +196,7 @@ export default {
       }
       else if (this.valueIn === 'Milimeter(mm)' && this.valueOut === 'Feet(ft)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0032808399;
+            return parseFloat(this.inputNum) * Math.pow(0.0032808399, this.inputPow) ;
           } 
           else {
             return parseFloat(this.inputNum) * 0.0032808399;
@@ -174,7 +204,7 @@ export default {
       }
       else if (this.valueIn === 'Milimeter(mm)' && this.valueOut === 'Yard(yd)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0010936133;
+            return parseFloat(this.inputNum) * Math.pow(0.0010936133, this.inputPow) ;
           } 
           else {
             return parseFloat(this.inputNum) * 0.0010936133;
@@ -182,7 +212,7 @@ export default {
       }
       else if (this.valueIn === 'Milimeter(mm)' && this.valueOut === 'Mile(mi)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.00000062137;
+            return parseFloat(this.inputNum) * Math.pow(0.00000062137, this.inputPow)  ;
           } 
           else {
             return parseFloat(this.inputNum) * 0.00000062137;
@@ -190,7 +220,7 @@ export default {
       }
       else if (this.valueIn === 'Centimeter(cm)' && this.valueOut === 'Milimeter(mm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 10;
+            return parseFloat(this.inputNum) * Math.pow(10, this.inputPow) ;
           } 
           else {
             return parseFloat(this.inputNum) * 10;
@@ -198,7 +228,7 @@ export default {
       }
       else if (this.valueIn === 'Centimeter(cm)' && this.valueOut === 'Decimeter(dm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.1;
+            return parseFloat(this.inputNum) * Math.pow(0.1, this.inputPow) ;
           } 
           else {
             return parseFloat(this.inputNum) * 0.1;
@@ -206,7 +236,7 @@ export default {
       }
       else if (this.valueIn === 'Centimeter(cm)' && this.valueOut === 'Meter(m)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.01;
+            return parseFloat(this.inputNum) * Math.pow(0.01, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.01;
@@ -214,7 +244,7 @@ export default {
       }
       else if (this.valueIn === 'Centimeter(cm)' && this.valueOut === 'Kilometer(km)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.00001;
+            return parseFloat(this.inputNum) * Math.pow(0.00001, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.00001;
@@ -222,7 +252,7 @@ export default {
       }
       else if (this.valueIn === 'Centimeter(cm)' && this.valueOut === 'Inch(in)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.3937007874;
+            return parseFloat(this.inputNum) * Math.pow(0.3937007874, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.3937007874;
@@ -230,7 +260,7 @@ export default {
       }
       else if (this.valueIn === 'Centimeter(cm)' && this.valueOut === 'Feet(ft)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.032808399;
+            return parseFloat(this.inputNum) * Math.pow(0.032808399, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.032808399;
@@ -238,7 +268,7 @@ export default {
       }
       else if (this.valueIn === 'Centimeter(cm)' && this.valueOut === 'Yard(yd)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.010936133;
+            return parseFloat(this.inputNum) * Math.pow(0.010936133, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.010936133;
@@ -246,7 +276,7 @@ export default {
       }
       else if (this.valueIn === 'Centimeter(cm)' && this.valueOut === 'Mile(mi)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0000062137;
+            return parseFloat(this.inputNum) * Math.pow(0.0000062137, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0000062137;
@@ -254,7 +284,7 @@ export default {
       }
       else if (this.valueIn === 'Decimeter(dm)' && this.valueOut === 'Milimeter(mm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 100;
+            return parseFloat(this.inputNum) * Math.pow(100, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 100;
@@ -262,7 +292,7 @@ export default {
       }
       else if (this.valueIn === 'Decimeter(dm)' && this.valueOut === 'Centimeter(cm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 10;
+            return parseFloat(this.inputNum) * Math.pow(10, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 10;
@@ -270,7 +300,7 @@ export default {
       }
       else if (this.valueIn === 'Decimeter(dm)' && this.valueOut === 'Meter(m)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.1;
+            return parseFloat(this.inputNum) * Math.pow(0.1, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.1;
@@ -278,7 +308,7 @@ export default {
       }
       else if (this.valueIn === 'Decimeter(dm)' && this.valueOut === 'Kilometer(km)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0001;
+            return parseFloat(this.inputNum) * Math.pow(0.0001, this.inputPow);
           
           } else {
           return parseFloat(this.inputNum) * 0.0001
@@ -286,7 +316,7 @@ export default {
       }
       else if (this.valueIn === 'Decimeter(dm)' && this.valueOut === 'Inch(in)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 3.937007874;
+            return parseFloat(this.inputNum) * Math.pow(3.937007874, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 3.937007874
@@ -294,7 +324,7 @@ export default {
       }
       else if (this.valueIn === 'Decimeter(dm)' && this.valueOut === 'Feet(ft)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.3280839895;
+            return parseFloat(this.inputNum) * Math.pow(0.3280839895, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.3280839895;
@@ -302,7 +332,7 @@ export default {
       }
       else if (this.valueIn === 'Decimeter(dm)' && this.valueOut === 'Yard(yd)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.1093613298;
+            return parseFloat(this.inputNum) * Math.pow(0.1093613298, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.1093613298;
@@ -310,7 +340,7 @@ export default {
       }
       else if (this.valueIn === 'Decimeter(dm)' && this.valueOut === 'Mile(mi)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0000621371
+            return parseFloat(this.inputNum) * Math.pow(0.0000621371, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0000621371;
@@ -318,7 +348,7 @@ export default {
       }
       else if (this.valueIn === 'Meter(m)' && this.valueOut === 'Milimeter(mm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 1000;
+            return parseFloat(this.inputNum) * Math.pow(1000, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 1000;
@@ -326,7 +356,7 @@ export default {
       }
       else if (this.valueIn === 'Meter(m)' && this.valueOut === 'Centimeter(cm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 100;
+            return parseFloat(this.inputNum) * Math.pow(100, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 100;
@@ -334,7 +364,7 @@ export default {
       }
       else if (this.valueIn === 'Meter(m)' && this.valueOut === 'Decimeter(dm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 10;
+            return parseFloat(this.inputNum) * Math.pow(10, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 10;
@@ -342,7 +372,7 @@ export default {
       }
       else if (this.valueIn === 'Meter(m)' && this.valueOut === 'Kilometer(km)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.001;
+            return parseFloat(this.inputNum) * Math.pow(0.001, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.001;
@@ -350,7 +380,7 @@ export default {
       }
       else if (this.valueIn === 'Meter(m)' && this.valueOut === 'Inch(in)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 39.37007874;
+            return parseFloat(this.inputNum) * Math.pow(39.37007874, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 39.37007874;
@@ -358,7 +388,7 @@ export default {
       }
       else if (this.valueIn === 'Meter(m)' && this.valueOut === 'Feet(ft)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 3.280839895;
+            return parseFloat(this.inputNum) * Math.pow(3.280839895, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 3.280839895;
@@ -366,7 +396,7 @@ export default {
       }
       else if (this.valueIn === 'Meter(m)' && this.valueOut === 'Yard(yd)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 1.0936132983;
+            return parseFloat(this.inputNum) * Math.pow(1.0936132983, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 1.0936132983;
@@ -374,7 +404,7 @@ export default {
       }
       else if (this.valueIn === 'Meter(m)' && this.valueOut === 'Mile(mi)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0006213712;
+            return parseFloat(this.inputNum) * Math.pow(0.0006213712, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0006213712;
@@ -382,7 +412,7 @@ export default {
       }
       else if (this.valueIn === 'Kilometer(km)' && this.valueOut === 'Milimeter(mm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 1000000;
+            return parseFloat(this.inputNum) * Math.pow(1000000, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 1000000;
@@ -390,7 +420,7 @@ export default {
       }
       else if (this.valueIn === 'Kilometer(km)' && this.valueOut === 'Centimeter(cm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 100000;
+            return parseFloat(this.inputNum) * Math.pow(100000, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 100000;
@@ -398,7 +428,7 @@ export default {
       }
       else if (this.valueIn === 'Kilometer(km)' && this.valueOut === 'Decimeter(dm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 10000;
+            return parseFloat(this.inputNum) * Math.pow(10000, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 10000
@@ -406,7 +436,7 @@ export default {
       }
       else if (this.valueIn === 'Kilometer(km)' && this.valueOut === 'Meter(m)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 1000;
+            return parseFloat(this.inputNum) * Math.pow(1000, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 1000;
@@ -414,7 +444,7 @@ export default {
       }
       else if (this.valueIn === 'Kilometer(km)' && this.valueOut === 'Inch(in)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 39370.07874;
+            return parseFloat(this.inputNum) * Math.pow(39370.07874, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 39370.07874;
@@ -422,7 +452,7 @@ export default {
       }
       else if (this.valueIn === 'Kilometer(km)' && this.valueOut === 'Feet(ft)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 3280.839895;
+            return parseFloat(this.inputNum) * Math.pow(3280.839895, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 3280.839895;
@@ -430,7 +460,7 @@ export default {
       }
       else if (this.valueIn === 'Kilometer(km)' && this.valueOut === 'Yard(yd)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 1093.6132983;
+            return parseFloat(this.inputNum) * Math.pow(1093.6132983, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 1093.6132983;
@@ -438,7 +468,7 @@ export default {
       }
       else if (this.valueIn === 'Kilometer(km)' && this.valueOut === 'Mile(mi)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.6213711922;
+            return parseFloat(this.inputNum) * Math.pow(0.6213711922, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.6213711922;
@@ -446,7 +476,7 @@ export default {
       }
       else if (this.valueIn === 'Inch(in)' && this.valueOut === 'Milimeter(mm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 25.4;
+            return parseFloat(this.inputNum) * Math.pow(25.4, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 25.4;
@@ -454,7 +484,7 @@ export default {
       }
       else if (this.valueIn === 'Inch(in)' && this.valueOut === 'Centimeter(cm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 2.54;
+            return parseFloat(this.inputNum) * Math.pow(2.54, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 2.54;
@@ -462,7 +492,7 @@ export default {
       }
       else if (this.valueIn === 'Inch(in)' && this.valueOut === 'Decimeter(dm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.254;
+            return parseFloat(this.inputNum) * Math.pow(0.254, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.254;
@@ -470,7 +500,7 @@ export default {
       }
       else if (this.valueIn === 'Inch(in)' && this.valueOut === 'Meter(m)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0254;
+            return parseFloat(this.inputNum) * Math.pow(0.0254, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0254;
@@ -478,7 +508,7 @@ export default {
       }
       else if (this.valueIn === 'Inch(in)' && this.valueOut === 'Kilometer(km)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0000254;
+            return parseFloat(this.inputNum) * Math.pow(0.0000254, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0000254;
@@ -486,7 +516,7 @@ export default {
       }
       else if (this.valueIn === 'Inch(in)' && this.valueOut === 'Feet(ft)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0833333333;
+            return parseFloat(this.inputNum) * Math.pow(0.0833333333, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0833333333;
@@ -494,7 +524,7 @@ export default {
       }
       else if (this.valueIn === 'Inch(in)' && this.valueOut === 'Yard(yd)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0277777778;
+            return parseFloat(this.inputNum) * Math.pow(0.0277777778, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0277777778;
@@ -502,7 +532,7 @@ export default {
       }
       else if (this.valueIn === 'Inch(in)' && this.valueOut === 'Mile(mi)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0000157828;
+            return parseFloat(this.inputNum) * Math.pow(0.0000157828, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0000157828;
@@ -510,7 +540,7 @@ export default {
       }
       else if (this.valueIn === 'Feet(ft)' && this.valueOut === 'Milimeter(mm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 304.8
+            return parseFloat(this.inputNum) * Math.pow(304.8, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 304.8;
@@ -518,7 +548,7 @@ export default {
       }
       else if (this.valueIn === 'Feet(ft)' && this.valueOut === 'Centimeter(cm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 30.48;
+            return parseFloat(this.inputNum) * Math.pow(30.48, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 30.48;
@@ -526,7 +556,7 @@ export default {
       }
       else if (this.valueIn === 'Feet(ft)' && this.valueOut === 'Decimeter(dm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 3.048;
+            return parseFloat(this.inputNum) * Math.pow(3.048, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 3.048
@@ -534,7 +564,7 @@ export default {
       }
       else if (this.valueIn === 'Feet(ft)' && this.valueOut === 'Meter(m)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.3048;
+            return parseFloat(this.inputNum) * Math.pow(0.3048, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.3048;
@@ -542,7 +572,7 @@ export default {
       }
       else if (this.valueIn === 'Feet(ft)' && this.valueOut === 'Kilometer(km)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0003048;
+            return parseFloat(this.inputNum) * Math.pow(0.0003048, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0003048
@@ -550,7 +580,7 @@ export default {
       }
       else if (this.valueIn === 'Feet(ft)' && this.valueOut === 'Inch(in)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 12;
+            return parseFloat(this.inputNum) * Math.pow(12, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 12;
@@ -558,7 +588,7 @@ export default {
       }
       else if (this.valueIn === 'Feet(ft)' && this.valueOut === 'Yard(yd)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.3333333333;
+            return parseFloat(this.inputNum) * Math.pow(0.3333333333, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.3333333333;
@@ -566,7 +596,7 @@ export default {
       }
       else if (this.valueIn === 'Feet(ft)' && this.valueOut === 'Mile(mi)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0001893939;
+            return parseFloat(this.inputNum) * Math.pow(0.0001893939, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0001893939;
@@ -574,7 +604,7 @@ export default {
       }
       else if (this.valueIn === 'Yard(yd)' && this.valueOut === 'Milimeter(mm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 914.4;
+            return parseFloat(this.inputNum) * Math.pow(914.4, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 914.4;
@@ -582,7 +612,7 @@ export default {
       }
       else if (this.valueIn === 'Yard(yd)' && this.valueOut === 'Centimeter(cm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 91.44;
+            return parseFloat(this.inputNum) * Math.pow(91.44, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 91.44;
@@ -590,7 +620,7 @@ export default {
       }
       else if (this.valueIn === 'Yard(yd)' && this.valueOut === 'Decimeter(dm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 9.144;
+            return parseFloat(this.inputNum) * Math.pow(9.144, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 9.144;
@@ -598,7 +628,7 @@ export default {
       }
       else if (this.valueIn === 'Yard(yd)' && this.valueOut === 'Meter(m)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.9144;
+            return parseFloat(this.inputNum) * Math.pow(0.9144, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.9144;
@@ -606,7 +636,7 @@ export default {
       }
       else if (this.valueIn === 'Yard(yd)' && this.valueOut === 'Kilometer(km)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0009144;
+            return parseFloat(this.inputNum) * Math.pow(0.0009144, this.inputPow)  ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0009144;
@@ -614,7 +644,7 @@ export default {
       }
       else if (this.valueIn === 'Yard(yd)' && this.valueOut === 'Inch(in)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 36;
+            return parseFloat(this.inputNum) * Math.pow(36, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 36;
@@ -622,7 +652,7 @@ export default {
       }
       else if (this.valueIn === 'Yard(yd)' && this.valueOut === 'Feet(ft)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 3;
+            return parseFloat(this.inputNum) * Math.pow(3, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 3;
@@ -630,7 +660,7 @@ export default {
       }
       else if (this.valueIn === 'Yard(yd)' && this.valueOut === 'Mile(mi)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 0.0005681818;
+            return parseFloat(this.inputNum) * Math.pow(0.0005681818, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 0.0005681818;
@@ -638,7 +668,7 @@ export default {
       }
       else if (this.valueIn === 'Mile(mi)' && this.valueOut === 'Milimeter(mm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 1609344;
+            return parseFloat(this.inputNum) * Math.pow(1609344, this.inputPow);
           
           } else {
           return parseFloat(this.inputNum) * 1609344;
@@ -646,7 +676,7 @@ export default {
       }
       else if (this.valueIn === 'Mile(mi)' && this.valueOut === 'Centimeter(cm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 160934.4;
+            return parseFloat(this.inputNum) * Math.pow(160934.4, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 160934.4;
@@ -654,7 +684,7 @@ export default {
       }
       else if (this.valueIn === 'Mile(mi)' && this.valueOut === 'Decimeter(dm)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 16093.44;
+            return parseFloat(this.inputNum) * Math.pow(16093.44, this.inputPow);
           
           } else {
           return parseFloat(this.inputNum) * 16093.44;
@@ -662,7 +692,7 @@ export default {
       }
       else if (this.valueIn === 'Mile(mi)' && this.valueOut === 'Meter(m)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 1609.344;
+            return parseFloat(this.inputNum) * Math.pow(1609.344, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 1609.344;
@@ -670,7 +700,7 @@ export default {
       }
       else if (this.valueIn === 'Mile(mi)' && this.valueOut === 'Kilometer(km)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 1.609344;
+            return parseFloat(this.inputNum) * Math.pow(609344, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 1.609344;
@@ -678,7 +708,7 @@ export default {
       }
       else if (this.valueIn === 'Mile(mi)' && this.valueOut === 'Inch(in)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 63360;
+            return parseFloat(this.inputNum) * Math.pow(63360, this.inputPow);
           
           } else {
           return parseFloat(this.inputNum) * 63360;
@@ -686,7 +716,7 @@ export default {
       }
       else if (this.valueIn === 'Mile(mi)' && this.valueOut === 'Feet(ft)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 5280;
+            return parseFloat(this.inputNum) * Math.pow(5280, this.inputPow);
           
           } else {
           return parseFloat(this.inputNum) * 5280;
@@ -694,7 +724,7 @@ export default {
       }
       else if (this.valueIn === 'Mile(mi)' && this.valueOut === 'Yard(yd)') {
           if (this.inputPow > 0) {
-            return Math.pow(parseFloat(this.inputNum), this.inputPow) * 1760;
+            return parseFloat(this.inputNum) * Math.pow(1760, this.inputPow) ;
           
           } else {
           return parseFloat(this.inputNum) * 1760;
