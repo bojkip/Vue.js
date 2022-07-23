@@ -3,8 +3,8 @@
     <v-container class="container" fluid>
       <h1 class="text-center pt-7">Length</h1>
       <v-row class="row d-flex justify-center py-7" cols="2">
-        <v-col cols="5">
-          <v-text-field class="text-center result-field" :messages="`${valueOut} ${exponent}`"  v-model="resultOutput" :vlaue="setResult" label="Result "></v-text-field>
+        <v-col xl="5" lg="5" sm="6" >
+          <v-text-field  class="text-center result-field" :messages="`${valueOut} ${exponent}`"  v-model="resultOutput" :vlaue="setResult" label="Result "></v-text-field>
           <!-- {{probaV}} {{inputNum}} -->
           <v-tooltip bottom> 
             <template v-slot:activator="{ on, attrs }">
