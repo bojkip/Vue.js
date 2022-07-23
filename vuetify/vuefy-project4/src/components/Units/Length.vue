@@ -4,7 +4,7 @@
       <h1 class="text-center pt-7">Length</h1>
       <v-row class="row d-flex justify-center py-7" cols="2">
         <v-col cols="5">
-          <v-text-field class="text-center result-field" clearable :messages="`${valueOut} ${exponent}`"  v-model="resultOutput" :vlaue="setResult" label="Result "></v-text-field>
+          <v-text-field class="text-center result-field" :messages="`${valueOut} ${exponent}`"  v-model="resultOutput" :vlaue="setResult" label="Result "></v-text-field>
           <!-- {{probaV}} {{inputNum}} -->
           <v-tooltip bottom> 
             <template v-slot:activator="{ on, attrs }">
@@ -30,16 +30,16 @@
         align="center"
       >
         <v-col>
-          <v-text-field outlined clearable label="Your Number" hint="Number only" placeholder="e.g 120" v-model="inputNum"></v-text-field>
+          <v-text-field outlined label="Your Number" hint="Number only" placeholder="e.g 120" v-model="inputNum"></v-text-field>
         </v-col>
         <v-col 
         >
-          <v-text-field outlined clearable disabled label="Your Number Exponent" placeholder="e.g. 2" hint="If your number has no exponent, skip this field" v-model="userPow">
+          <v-text-field outlined disabled label="Your Number Exponent" placeholder="e.g. 2" hint="If your number has no exponent, skip this field" v-model="userPow">
           </v-text-field>
         </v-col>
         <v-col 
         >
-          <v-text-field outlined clearable :disabled="disUnitPow" label="Unit Exponent" placeholder="e.g. 2" hint="If  unit has no exponent, skip this field" v-model="unitPow"></v-text-field>
+          <v-text-field outlined :disabled="disUnitPow" label="Unit Exponent" placeholder="e.g. 2" hint="If  unit has no exponent, skip this field" v-model="unitPow"></v-text-field>
         </v-col>
         </v-row>
         <v-row>
@@ -51,7 +51,7 @@
             filled
             label="From Unit"
             placeholder="e.g. Centimeter or cm"
-            clearable
+          
           ></v-autocomplete>
         </v-col>
         <v-col>
@@ -62,7 +62,7 @@
             filled
             label="To Unit"
             placeholder="e.g. Milimeter or mm"
-            clearable
+          
           ></v-autocomplete>
         </v-col>
       </v-row>
