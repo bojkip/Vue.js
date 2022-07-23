@@ -3,7 +3,7 @@
     <v-container class="container" fluid>
       <h1 class="text-center pt-7">Length</h1>
       <v-row class="row d-flex justify-center py-7" cols="2">
-        <v-col cols="3">
+        <v-col cols="5">
           <v-text-field class="text-center result-field" clearable :messages="`${valueOut} ${exponent}`"  v-model="resultOutput" :vlaue="setResult" label="Result "></v-text-field>
           <!-- {{probaV}} {{inputNum}} -->
           <v-tooltip bottom> 
@@ -24,7 +24,6 @@
           </template>
           <span>Reset All</span>
         </v-tooltip>
-
         </v-col>
       </v-row>
       <v-row
@@ -33,6 +32,17 @@
         <v-col>
           <v-text-field outlined clearable label="Your Number" hint="Number only" placeholder="e.g 120" v-model="inputNum"></v-text-field>
         </v-col>
+        <v-col 
+        >
+          <v-text-field outlined clearable disabled label="Your Number Exponent" placeholder="e.g. 2" hint="If your number has no exponent, skip this field" v-model="userPow">
+          </v-text-field>
+        </v-col>
+        <v-col 
+        >
+          <v-text-field outlined clearable :disabled="disUnitPow" label="Unit Exponent" placeholder="e.g. 2" hint="If  unit has no exponent, skip this field" v-model="unitPow"></v-text-field>
+        </v-col>
+        </v-row>
+        <v-row>
         <v-col>
           <v-autocomplete
             v-model="valueIn"
@@ -55,17 +65,8 @@
             clearable
           ></v-autocomplete>
         </v-col>
-        <v-col xs-cols="2"
-        sm-cols="2">
-          <v-text-field outlined clearable label="Your Number Exponent" placeholder="e.g. 2" hint="If your number has no exponent, skip this field" v-model="userPow">
-          </v-text-field>
-        </v-col>
-        <v-col xs-cols="2"
-        sm-cols="2">
-          <v-text-field outlined clearable :disabled="disUnitPow" label="Unit Exponent" placeholder="e.g. 2" hint="If  unit has no exponent, skip this field" v-model="unitPow"></v-text-field>
-        </v-col>
       </v-row>
-    </v-container>
+      </v-container>
     <v-container>
         <v-col>
           <v-switch
