@@ -42,8 +42,8 @@
           <v-text-field outlined :disabled="disUnitPow" label="Unit Exponent" placeholder="2" hint="If  unit has no exponent, skip this field" v-model="unitPow"></v-text-field>
         </v-col>
         </v-row>
-        <v-row>
-        <v-col>
+        <v-row justify="center">
+        <v-col xl="4" lg="4" sm="4">
           <v-autocomplete
             v-model="valueIn"
             :items="itemsIn"
@@ -53,7 +53,7 @@
             placeholder="Centimeter or cm"
           ></v-autocomplete>
         </v-col>
-        <v-col>
+        <v-col xl="4" lg="4" sm="4">
           <v-autocomplete
             v-model="valueOut"
             :items="itemsOut"
@@ -66,14 +66,26 @@
       </v-row>
       </v-container>
     <v-container>
+      <v-row>
         <v-col>
           <v-switch
             v-model="showAreaUnits"
             inset
             label="Area"
             @changed="SetAreaItems"
+            :disabled="disAreaBtn"
           ></v-switch>
         </v-col>
+        <v-col>
+          <v-switch
+            v-model="showVolumeUnits"
+            inset
+            label="Volume"
+            @changed="SetVolumeItems"
+            :disabled="disVolumeBtn"
+          ></v-switch>
+        </v-col>
+      </v-row>
       </v-container>
     <add-components-btn class="mt-5"></add-components-btn>
   </v-card>
@@ -84,10 +96,13 @@
 
 <script>
 import AddComponentsBtn from '../AddComponents/AddComponentsBtn.vue';
+import VolumeSwitchBtn from '../VolumeSwitchBtn.vue';
+
 
 export default {
   components: {
   AddComponentsBtn,
+  VolumeSwitchBtn,
   },
   data() {
     return {
@@ -107,8 +122,11 @@ export default {
       AreaBtn: false,
       ppp: '',
       showAreaUnits: false,
+      showVolumeUnits: false,
       disUnitPow: false,
       resultFocus: false,
+      disAreaBtn: false,
+      disVolumeBtn: false,
     }
   },
   methods: {
@@ -139,18 +157,36 @@ export default {
     },
     SetAreaItems(){
       if (this.showAreaUnits === true) {
-        this.itemsIn = [ 'Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Hectare(ha)', 'Meter(m)', 'Kilometer(km)', 'Acre(ac)', 'Are', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)' ];
-        this.itemsOut = [ 'Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Hectare(ha)', 'Meter(m)', 'Kilometer(km)', 'Acre(ac)', 'Are', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)' ];
+        this.itemsIn = [ 'Square Milimeter(mm)', 'Square Centimeter(cm)', 'Square Decimeter(dm)', 'Hectare(ha)', 'Meter(m)', 'Square Kilometer(km)', 'Acre(ac)', 'Are', 'Square Inch(in)', 'Square Feet(ft)', 'Square Yard(yd)', 'Square Mile(mi)' ];
+        this.itemsOut = [ 'Square Milimeter(mm)', 'Square Centimeter(cm)', 'Square Decimeter(dm)', 'Hectare(ha)', 'Meter(m)', 'Square Kilometer(km)', 'Acre(ac)', 'Are', 'Square Inch(in)', 'Square Feet(ft)', 'Square Yard(yd)', 'Square Mile(mi)' ];
         this.disUnitPow = true;
+        this.disVolumeBtn = true,
         this.unitPow = 2;
       }
       else {
         this.itemsIn = [ 'Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)'];
         this.itemsOut = ['Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)'];
         this.disUnitPow = false;
+        this.disVolumeBtn = false,
         this.unitPow = '';
       }
     },
+    SetVolumeItems(){
+            if (this.showVolumeUnits === true) {
+                this.itemsIn = [ 'Cubic Milimeter(mm)', 'Cubic Centimeter(cm)', 'Cubic Decimeter(dm)', 'Cubic Meter(m)', 'Cubic Kilometer(km)', 'Mililiter(ml)', 'Liter(l)', 'Deciliter(dl)', 'Cup US', 'Gallon US (gal)', 'Teaspoon US', 'Tablespoon US'  ],
+                this.itemsOut = [ 'Cubic Milimeter(mm)', 'Cubic Centimeter(cm)', 'Cubic Decimeter(dm3)', 'Cubic Meter(m)', 'Cubic Kilometer(km)', 'Mililiter(ml)', 'Liter(l)', 'Deciliter(dl)', 'Cup US', 'Gallon US (gal)', 'Teaspoon US', 'Tablespoon US'  ],
+                this.disUnitPow = true;
+                this.disAreaBtn = true;
+                this.unitPow = 3;
+            }
+            else {
+                this.itemsIn = [ 'Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)'];
+                this.itemsOut = ['Milimeter(mm)', 'Centimeter(cm)', 'Decimeter(dm)', 'Meter(m)', 'Kilometer(km)', 'Inch(in)', 'Feet(ft)', 'Yard(yd)', 'Mile(mi)'];
+                this.disUnitPow = false;
+                this.disAreaBtn = false;
+                this.unitPow = '';
+            }
+        },
     setResult(){
       this.resultOutput = this.probaN;
       
@@ -1873,6 +1909,414 @@ export default {
           return parseFloat(this.inputNum) * 119.59900463;
         }
       }
+
+      else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 0.001;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 0.000001;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 0.000000001;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.000000000000000001;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 0.001;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 0.000001;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 0.00001;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 0.0000042268;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 0.0000002641722;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 0.0002028841;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) * 0.000067628;
+            }
+            
+            else if (this.valueIn === ' Centimeter(cm3)' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 1000;
+            }
+            else if (this.valueIn === ' Centimeter(cm3)' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 0.001;
+            }
+            else if (this.valueIn === ' Centimeter(cm3)' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 0.000001;
+            }
+            else if (this.valueIn === ' Milimeter(mm3)' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.000000000000001;
+            }
+            else if (this.valueIn === ' Centimeter(cm3)' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 1;
+                }
+            else if (this.valueIn === ' Centimeter(cm3)' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 0.001;
+            }
+            else if (this.valueIn === ' Centimeter(cm3)' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 0.01;
+            }
+            else if (this.valueIn === ' Centimeter(cm3)' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 0.0042267528;
+            }
+            else if (this.valueIn === ' Centimeter(cm3)' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 0.0002641721;
+            }
+            else if (this.valueIn === ' Centimeter(cm3)' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 0.2028841362;
+            }
+            else if (this.valueIn === ' Centimeter(cm3)' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) * 0.0676280454;
+            }
+
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 1000000;
+            }
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 1000;
+            }
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 0.001;
+            }
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.000000000001;
+            }
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 1000;
+                }
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 1;
+            }
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 10;
+            }
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 4.2267528377;
+            }
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 0.2641720524;
+            }
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 202.88413621;
+            }
+            else if (this.valueIn === ' Decimeter(dm3)' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) * 67.628045404;
+            }
+
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 1000000000;
+            }
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 1000000;
+            }
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 1000;
+            }
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.000000001;
+            }
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 1000000;
+                }
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 1000;
+            }
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 10000;
+            }
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 4226.7528377;
+            }
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 264.17205236;
+            }
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 202884.13621;
+            }
+            else if (this.valueIn === ' Meter(m3)' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) * 67628.045404;
+            }
+
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 1000000000000000000;
+            }
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 1000000000000000;
+            }
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 1000000000000;
+            }
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 1000000000;
+            }
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 1000000000000000;
+                }
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 1000000000000;
+            }
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 10000000000000;
+            }
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 4226752837730;
+            }
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 264172052358;
+            }
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 202884136211060;
+            }
+            else if (this.valueIn === ' Kilometer(km3)' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) * 67628045403686;
+            }
+
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 1000;
+            }
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 1;
+            }
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 0.001;
+            }
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 0.000001;
+            }
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.0000000000000001;
+                }
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 0.001;
+            }
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 0.01;
+            }
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 0.0042267528;
+            }
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 0.0002641721;
+            }
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 0.2028841362;
+            }
+            else if (this.valueIn === 'Mililiter(ml)' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) * 0.0676280454;
+            }
+
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 1000000;
+            }
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 1000000;
+            }
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 1;
+            }
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 0.001;
+            }
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.000000000001;
+                }
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 1000;
+            }
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 10;
+            }
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 4.2267528377;
+            }
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 0.2641720524;
+            }
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 202.88413621;
+            }
+            else if (this.valueIn === 'Liter(l)' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) * 67.628045404;
+            }
+
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 100000;
+            }
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 100;
+            }
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 0.1;
+            }
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 0.0001;
+            }
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.0000000000001;
+                }
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 100;
+            }
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 0.1;
+            }
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 0.4226752838;
+            }
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 0.0264172052;
+            }
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 20.288413621;
+            }
+            else if (this.valueIn === 'Deciliter(dl)' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) * 6.7628045404;
+            }
+
+            else if (this.valueIn === 'Cup US' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 236588.2365;
+            }
+            else if (this.valueIn === 'Cup US' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 236.5882365;
+            }
+            else if (this.valueIn === 'Cup US' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 0.2365882365;
+            }
+            else if (this.valueIn === 'Cup US' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 0.0002365882;
+            }
+            else if (this.valueIn === 'Cup US' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.0000000000002365882;
+                }
+            else if (this.valueIn === 'Cup US' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 236.5882365;
+            }
+            else if (this.valueIn === 'Cup US' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 0.2365882365;
+            }
+            else if (this.valueIn === 'Cup US' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 2.365882365;
+            }
+            else if (this.valueIn === 'Cup US' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 0.0625;
+            }
+            else if (this.valueIn === 'Cup US' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 48;
+            }
+            else if (this.valueIn === 'Cup US' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) * 16;
+            }
+            
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 3785411.784;
+            }
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 3785.4118;
+            }
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 3.7854118;
+            }
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 0.0037854118;
+            }
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.0000000000037854118;
+                }
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 3785.411784;
+            }
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 3.785411784;
+            }
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 37.85411784;
+            }
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 16;
+            }
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 768;
+            }
+            else if (this.valueIn === 'Gallon US (gal)' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) * 256;
+            }
+
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 4928.9215937;
+            }
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 4.9289215937;
+            }
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 0.0049289216;
+            }
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 0.000004928;
+            }
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.0000000000000049289;
+                }
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 4.9289215937;
+            }
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 0.0049289216;
+            }
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 0.0492892159;
+            }
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 0.0208333333;
+            }
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 0.0013020833;
+            }
+            else if (this.valueIn === 'Teaspoon US' && this.valueOut === 'Tablespoon US') {
+                return parseFloat(this.inputNum) / 3;
+            }
+
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === ' Milimeter(mm3)') {
+                return parseFloat(this.inputNum) * 14786.764781;
+            }
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === ' Centimeter(cm3)') {
+                return parseFloat(this.inputNum) * 14.786764781;
+            }
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === ' Decimeter(dm3)') {
+                return parseFloat(this.inputNum) * 0.0147867648;
+            }
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === ' Meter(m3)') {
+                return parseFloat(this.inputNum) * 0.0000147868;
+            }
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === ' Kilometer(km3)') {
+                return parseFloat(this.inputNum) * 0.0000000000000147868;
+                }
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === 'Mililiter(ml)') {
+                return parseFloat(this.inputNum) * 14786.764781;
+            }
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === 'Liter(l)') {
+                return parseFloat(this.inputNum) * 0.0147867648;
+            }
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === 'Deciliter(dl)') {
+                return parseFloat(this.inputNum) * 0.1478676478;
+            }
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === 'Cup US') {
+                return parseFloat(this.inputNum) * 0.0625;
+            }
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === 'Gallon US (gal)') {
+                return parseFloat(this.inputNum) * 0.00390625;
+            }
+            else if (this.valueIn === 'Tablespoon US' && this.valueOut === 'Teaspoon US') {
+                return parseFloat(this.inputNum) * 3;
+            }
 
       else {
         return ''
