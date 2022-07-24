@@ -96,13 +96,10 @@
 
 <script>
 import AddComponentsBtn from '../AddComponents/AddComponentsBtn.vue';
-import VolumeSwitchBtn from '../VolumeSwitchBtn.vue';
-
 
 export default {
   components: {
   AddComponentsBtn,
-  VolumeSwitchBtn,
   },
   data() {
     return {
