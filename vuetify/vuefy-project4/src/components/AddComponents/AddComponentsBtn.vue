@@ -37,8 +37,5 @@ export default {
             }
         }
     },
-    computed:{
-        
-    }
 }
 </script>

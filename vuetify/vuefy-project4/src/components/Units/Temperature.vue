@@ -64,6 +64,9 @@
         </v-col>
     </v-row>
     </v-container>
+    <div>
+        <add-components-btn></add-components-btn>
+    </div>
 </v-card>
 </template>
 
