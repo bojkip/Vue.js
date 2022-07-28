@@ -105,6 +105,7 @@ export default {
         this.valueOut = '' ;
         this.valueIn = '' ;
         this.resultOutput = '' ;
+        this.userPow = '';
         },
         copyBtn(){
         navigator.clipboard.writeText(this.resultOutput);
