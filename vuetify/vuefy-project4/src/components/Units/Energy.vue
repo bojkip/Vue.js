@@ -70,12 +70,12 @@ export default {
         itemsIn: [ 'Joule(J)', 'Kilojule(kJ)', 'Kilowatt-hour(kWh)', 'Watt-hour(Wh)'],
         valueIn: '',
         userPow: '',
+        removeComponent: true,
+        addComponent: true,
         jouleResult: '',
         kilojuleResult: '',
         kilowattHourResult: '',
         wattHourResult: '',
-        focus: false,
-        
         }
     },
     computed: {
