@@ -98,7 +98,17 @@ export default {
     },
     computed: {
         convertTime(){
-            if (this.valueIn === 'Microsecond(μs)') {
+            if (this.inputNum === ''){
+                this.microsecondResult = '' ;
+                this.millisecondResult = '' ;
+                this.mimuteResult = '' ;
+                this.secondResult = '' ;
+                this.hourdResult = '';
+                this.dayResult = '';
+                this.weekResult = '';
+            }
+
+            else if (this.valueIn === 'Microsecond(μs)') {
                 if (this.userPow != ''){
                     this.microsecondResult = parseFloat(Math.pow(this.inputNum, this.userPow));
                     this.millisecondResult = parseFloat(Math.pow(this.inputNum, this.userPow)) / 1000000;
@@ -255,8 +265,8 @@ export default {
                 this.mimuteResult = '' ;
                 this.secondResult = '' ;
                 this.hourdResult = '';
-                    this.dayResult = '';
-                    this.weekResult = '';
+                this.dayResult = '';
+                this.weekResult = '';
             }
         }
 
