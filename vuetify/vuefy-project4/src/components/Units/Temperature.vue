@@ -126,10 +126,9 @@ export default {
                 }
             }
             else{
-                this.kilojuleResult = '' ;
-                this.kilowattHourResult = '' ;
-                this.wattHourResult = '' ;
-                this.jouleResult = '' ;
+                this.fahrenheitResult = '' ;
+                this.kelvinResult = '' ;
+                this.celsiusResult = '' ;
             }
         }
     }
