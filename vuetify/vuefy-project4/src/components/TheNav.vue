@@ -56,7 +56,6 @@ flat
 <script>
 import SearchBar from './SearchBar.vue'
 import NavSearchBar from './NavSearchBar.vue'
-import AllCategoriesBtn from './AllCategories/AllCategoriesBtn.vue'
 
 
 export default {
@@ -67,7 +66,6 @@ export default {
     components: {
         SearchBar,
         NavSearchBar,
-        AllCategoriesBtn,
     }
 }
 </script>

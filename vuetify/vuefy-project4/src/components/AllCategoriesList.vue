@@ -87,14 +87,4 @@ export default{
         font-family: 'Uchen', serif;
         font-size: 1.5em;
     }
-    /*
-    a{
-animation:blinking 1.2s infinite;
-}
-@keyframes blinking{
-0%{   color: black;   }
-30%{  color: #008585;   }
-}
-*/
-
 </style>

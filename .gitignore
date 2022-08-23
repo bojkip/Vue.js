@@ -1,1 +1,6 @@
 node_modules
+vuetify/vuefy-project4/src/components/SearchComponent.vue
+vuetify/vuefy-project4/src/components/AddComponents/AddComponentsBtn.vue
+vuetify/vuefy-project4/src/components/AddComponents/AddComponentsBtn.vue
+vuetify/vuefy-project4/src/components/AddComponents/AddComponentsBtn.vue
+.gitignore
