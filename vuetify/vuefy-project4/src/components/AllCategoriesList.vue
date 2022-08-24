@@ -15,7 +15,7 @@
     </v-expansion-panel>
 </v-expansion-panels>
     </v-row>
-    <v-row class="pt-15 d-flex justify-center" flat>
+    <v-row class="pt-15 d-flex " flat>
     <v-col
         v-for="link in links"
         :key="link.name"
@@ -62,9 +62,6 @@ export default{
                 },
                 {
                     name: 'Volume', route: '/volume',
-                },
-                {
-                    name: '', route: '',
                 },
             ]
         }
