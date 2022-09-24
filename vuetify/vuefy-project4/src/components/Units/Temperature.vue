@@ -9,12 +9,12 @@
         
     >
         <v-col xl="4" lg="4" sm="4">
-        <v-text-field outlined label="Your Number" hint="Number only" placeholder="120" v-model="inputNum" :value="convertTemp"></v-text-field>
+        <v-text-field outlined label="Your Number" hint="Number only" placeholder="120" v-model="inputNum" :value="convertTemp" type="number"></v-text-field>
         </v-col>
         <v-col
         xl="4" lg="4" sm="4"
         >
-        <v-text-field outlined label="Your Exponent" placeholder="2" hint="If your number has no exponent, skip this field" v-model="userPow">
+        <v-text-field outlined label="Your Exponent" placeholder="2" hint="If your number has no exponent, skip this field" v-model="userPow" type="number">
         </v-text-field>
         </v-col>
         </v-row>
@@ -86,13 +86,13 @@ export default {
 
             else if (this.valueIn === 'Celsius(C)') {
                 if (this.userPow != ''){
-                    this.fahrenheitResult = parseFloat(Math.pow(this.inputNum, this.userPow)) * 33.8;
+                    this.fahrenheitResult = parseFloat(Math.pow(this.inputNum, this.userPow)) * 9/5 + 32;
                     this.kelvinResult = parseFloat(Math.pow(this.inputNum, this.userPow)) * 274.15;
                     this.celsiusResult = parseFloat(Math.pow(this.inputNum, this.userPow));
                     
                 }
                 else {
-                    this.fahrenheitResult = parseFloat(this.inputNum) * 33.8;
+                    this.fahrenheitResult = parseFloat(this.inputNum) * 9/5 + 32;
                     this.kelvinResult = parseFloat(this.inputNum) * 274.15;
                     this.celsiusResult = parseFloat(this.inputNum);
                 }
@@ -100,25 +100,25 @@ export default {
             else if (this.valueIn === 'Fahrenheit(F)') {
                 if (this.userPow != ''){
                     this.fahrenheitResult = parseFloat(Math.pow(this.inputNum, this.userPow));
-                    this.kelvinResult = parseFloat(Math.pow(this.inputNum, this.userPow)) * (-17.2222222);
-                    this.celsiusResult = parseFloat(Math.pow(this.inputNum, this.userPow)) * 255.927778;
+                    this.kelvinResult = (parseFloat(Math.pow(this.inputNum, this.userPow)) + 459.67) * 5/9;
+                    this.celsiusResult = (parseFloat(Math.pow(this.inputNum, this.userPow)) - 32) * 5/9;
                     
                 }
                 else {
                     this.fahrenheitResult = parseFloat(this.inputNum);
-                    this.kelvinResult = parseFloat(this.inputNum) * (-17.2222222);
-                    this.celsiusResult = parseFloat(this.inputNum) * 255.927778;
+                    this.kelvinResult = (parseFloat(this.inputNum) + 459.67) * 5/9;
+                    this.celsiusResult = (parseFloat(this.inputNum) - 32) * 5/9;
                 }
             }
             else if (this.valueIn === 'Kelvin(K)') {
                 if (this.userPow != ''){
-                    this.fahrenheitResult = parseFloat(Math.pow(this.inputNum, this.userPow)) * (-457.87);
+                    this.fahrenheitResult = parseFloat(Math.pow(this.inputNum, this.userPow)) * 9/5 - 459.67;
                     this.kelvinResult = parseFloat(Math.pow(this.inputNum, this.userPow));
                     this.celsiusResult = parseFloat(Math.pow(this.inputNum, this.userPow)) * (-272.15);
                     
                 }
                 else {
-                    this.fahrenheitResult = parseFloat(this.inputNum) * (-457.87);
+                    this.fahrenheitResult = parseFloat(this.inputNum) * 9/5 - 459.67;
                     this.kelvinResult = parseFloat(this.inputNum);
                     this.celsiusResult = parseFloat(this.inputNum) * (-272.15);
                 }
