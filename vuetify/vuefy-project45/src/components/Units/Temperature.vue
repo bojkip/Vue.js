@@ -83,7 +83,7 @@ export default {
 
             else if (this.valueIn === 'Celsius(C)') {
                 if (this.userPow != ''){
-                    this.fahrenheitResult = Math.pow(parseFloat(this.inputNum), this.userPow) * 9/5 + 32
+                    this.fahrenheitResult = Math.pow(parseFloat(this.inputNum), this.userPow)*9/5+32
                     this.kelvinResult = parseFloat(Math.pow(this.inputNum, this.userPow)) * 274.15;
                     this.celsiusResult = parseFloat(Math.pow(this.inputNum, this.userPow));
                     
